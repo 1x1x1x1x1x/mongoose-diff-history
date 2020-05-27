@@ -71,7 +71,7 @@ function saveDiffObject(currentObject, original, updated, opts, queryObject) {
                 diff,
                 user,
                 reason,
-                context
+                context,
                 version: lastHistory ? lastHistory.version + 1 : 0
             });
             if (session) {
