@@ -38,7 +38,7 @@ function saveDiffObject(currentObject, original, updated, opts, queryObject) {
     const { __user: user, __reason: reason, __context: context, __session: session } =
         (queryObject && queryObject.options) || currentObject;
 
-    let contextInfo = _.pick(context.headers || {}, ['user-agent', 'referer', 'x-real-ip', 'cf-ipcountry']) || {};
+    let contextInfo = pick(context.headers || {}, ['user-agent', 'referer', 'x-real-ip', 'cf-ipcountry']) || {};
 
     console.log(contextInfo);
     
