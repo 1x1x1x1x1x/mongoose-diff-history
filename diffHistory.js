@@ -39,7 +39,9 @@ function saveDiffObject(currentObject, original, updated, opts, queryObject) {
         (queryObject && queryObject.options) || currentObject;
 
         console.log("user", user);
-        console.log("__user", __user);
+        console.log("reason", reason);
+        console.log("context", context);
+        console.log("session", session);
 
     let diff = diffPatcher.diff(
         JSON.parse(JSON.stringify(original)),

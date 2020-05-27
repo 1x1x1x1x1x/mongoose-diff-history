@@ -7,8 +7,8 @@ const historySchema = new Schema(
         collectionId: Schema.Types.ObjectId,
         diff: {},
         user: {},
-        context: {},
         reason: String,
+        context: {},
         version: { type: Number, min: 0 }
     },
     {
