@@ -21,20 +21,25 @@ function checkRequired(opts, queryObject, updatedObject) {
     if (queryObject && !queryObject.options && !updatedObject) {
         return;
     }
-    const { __user: user, __reason: reason } =
+    const { __user: user, __reason: reason, __context: context } =
         (queryObject && queryObject.options) || updatedObject;
     if (
         opts.required &&
         ((opts.required.includes('user') && !user) ||
-            (opts.required.includes('reason') && !reason))
+            (opts.required.includes('reason') && !reason) ||
+            (opts.required.includes('context') && !context)
+            )
     ) {
         return true;
     }
 }
 
 function saveDiffObject(currentObject, original, updated, opts, queryObject) {
-    const { __user: user, __reason: reason, __session: session } =
+    const { __user: user, __reason: reason, __context: context, __session: session } =
         (queryObject && queryObject.options) || currentObject;
+
+        console.log("user", user);
+        console.log("__user", __user);
 
     let diff = diffPatcher.diff(
         JSON.parse(JSON.stringify(original)),
@@ -66,6 +71,7 @@ function saveDiffObject(currentObject, original, updated, opts, queryObject) {
                 diff,
                 user,
                 reason,
+                context
                 version: lastHistory ? lastHistory.version + 1 : 0
             });
             if (session) {
@@ -222,6 +228,7 @@ const getHistories = (modelName, id, expandableFields, cb) => {
                 changedAt: history.createdAt,
                 updatedAt: history.updatedAt,
                 reason: history.reason,
+                context: history.context,
                 comment: comment
             });
         })
