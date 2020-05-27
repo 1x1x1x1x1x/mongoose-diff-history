@@ -38,10 +38,6 @@ function saveDiffObject(currentObject, original, updated, opts, queryObject) {
     const { __user: user, __reason: reason, __context: context, __session: session } =
         (queryObject && queryObject.options) || currentObject;
 
-    let contextInfo = pick(context.headers || {}, ['user-agent', 'referer', 'x-real-ip', 'cf-ipcountry']) || {};
-
-    console.log(contextInfo);
-    
     let diff = diffPatcher.diff(
         JSON.parse(JSON.stringify(original)),
         JSON.parse(JSON.stringify(updated))
@@ -72,7 +68,7 @@ function saveDiffObject(currentObject, original, updated, opts, queryObject) {
                 diff,
                 user,
                 reason,
-                contextInfo,
+                context,
                 version: lastHistory ? lastHistory.version + 1 : 0
             });
             if (session) {
