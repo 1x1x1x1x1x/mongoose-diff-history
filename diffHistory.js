@@ -35,13 +35,17 @@ function checkRequired(opts, queryObject, updatedObject) {
 }
 
 function saveDiffObject(currentObject, original, updated, opts, queryObject) {
-    const { __user: user, __reason: reason, __context: context, __session: session } =
+    const { __user: user, __reason: reason, __context: tmpContext, __session: session } =
         (queryObject && queryObject.options) || currentObject;
 
-        console.log("user", user);
-        console.log("reason", reason);
-        console.log("context", context);
-        console.log("session", session);
+    var context = {};
+    if(tmpContext && tmpContext.headers){
+        tmpContext = tmpContext.headers;
+        if(tmpContext['user-agent'])context.userAgent = tmpContext['user-agent'];
+        if(tmpContext['referer'])context.referer = tmpContext['referer'];
+        if(tmpContext['x-real-ip'])context.ip = tmpContext['x-real-ip'];
+        if(tmpContext['cf-ipcountry'])context.ipCountry = tmpContext['cf-ipcountry'];
+    }
 
     let diff = diffPatcher.diff(
         JSON.parse(JSON.stringify(original)),
